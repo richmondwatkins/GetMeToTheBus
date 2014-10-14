@@ -75,10 +75,24 @@
 }
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
+    BOOL isInterModal = NO;
+    for(Location *location in self.locations){
+        if ([location.name isEqualToString:annotation.title]) {
+            if (location.interModal) {
+                isInterModal = YES;
+            }
+        }
+    }
 
     MKPinAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MyPinID"];
     pin.canShowCallout = YES;
     pin.rightCalloutAccessoryView  = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+
+    if (isInterModal) {
+        pin.image = [UIImage imageNamed:@"inter-modal"];
+    }else{
+        pin.image = [UIImage imageNamed:@"non-inter-modal"];
+    }
 
     return pin;
 }
