@@ -7,9 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
-@interface Location : NSObject
+@interface Location : NSObject <MKAnnotation>
 @property NSString *name;
 @property NSString *longitude;
 @property NSString *latitude;
+@property NSString *routes;
+@property NSString *address;
+@property NSString *interModal;
 @end

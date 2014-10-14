@@ -9,9 +9,11 @@
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
 #import "Location.h"
+#import "LocationDetailViewController.h"
 @interface ViewController () <MKMapViewDelegate>
 @property NSMutableArray *locations;
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
+@property Location *selectedLocation;
 @end
 
 @implementation ViewController
@@ -23,12 +25,19 @@
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         NSMutableDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         for(NSDictionary *loc in results[@"row"]){
-            NSLog(@"%@", loc);
-            Location *location = [[Location alloc]init];
-            location.name = loc[@"cta_stop_name"];
-            location.latitude = loc[@"latitude"];
-            location.longitude = loc[@"longitude"];
-            [self.locations addObject:location];
+            NSString *lng = loc[@"longitude"];
+            if (lng.intValue < 0) {
+                Location *location = [[Location alloc]init];
+                location.name = loc[@"cta_stop_name"];
+                location.latitude = loc[@"latitude"];
+                location.longitude = loc[@"longitude"];
+                location.routes = loc[@"routes"];
+                location.address = loc[@"_address"];
+                if (loc[@"inter_modal"]) {
+                    location.interModal = loc[@"inter_modal"];
+                }
+                [self.locations addObject:location];
+            }
         }
 
         [self addBusLocationPins];
@@ -45,15 +54,25 @@
 
         MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
         annotation.title = location.name;
+        annotation.subtitle = location.routes;
         annotation.coordinate = coord;
         [annotationArray addObject:annotation];
         [self.mapView addAnnotation:annotation];
     }
 
-    [self.mapView showAnnotations:annotationArray animated:YES];
+    [self.mapView showAnnotations:self.mapView.annotations animated:YES];
 
 }
 
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
+
+    for(Location *location in self.locations){
+        if ([location.name isEqualToString:view.annotation.title]) {
+            self.selectedLocation = location;
+        }
+    }
+    [self performSegueWithIdentifier:@"locationDetail" sender:self];
+}
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
 
@@ -62,6 +81,13 @@
     pin.rightCalloutAccessoryView  = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 
     return pin;
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"locationDetail"]) {
+        LocationDetailViewController *locationDetailCtrl = [segue destinationViewController];
+        locationDetailCtrl.location = self.selectedLocation;
+    }
 }
 
 @end
