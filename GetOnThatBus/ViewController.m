@@ -36,6 +36,7 @@
 }
 
 -(void)addBusLocationPins{
+    NSMutableArray *annotationArray = [[NSMutableArray alloc] init];
     for(Location *location in self.locations){
         CLLocationCoordinate2D coord;
 
@@ -45,8 +46,12 @@
         MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
         annotation.title = location.name;
         annotation.coordinate = coord;
+        [annotationArray addObject:annotation];
         [self.mapView addAnnotation:annotation];
     }
+
+    [self.mapView showAnnotations:annotationArray animated:YES];
+
 }
 
 
