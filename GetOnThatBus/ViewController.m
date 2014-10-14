@@ -10,16 +10,19 @@
 #import <MapKit/MapKit.h>
 #import "Location.h"
 #import "LocationDetailViewController.h"
-@interface ViewController () <MKMapViewDelegate>
+@interface ViewController () <MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>
 @property NSMutableArray *locations;
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @property Location *selectedLocation;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView.hidden = YES;
     self.locations = [[NSMutableArray alloc]init];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://s3.amazonaws.com/mobile-makers-lib/bus.json"]];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -42,6 +45,29 @@
 
         [self addBusLocationPins];
     }];
+}
+- (IBAction)toggleSegmentControl:(UISegmentedControl *)segmentControl {
+
+    if (segmentControl.selectedSegmentIndex) {
+        self.mapView.hidden = YES;
+        self.tableView.hidden = NO;
+        [self.tableView reloadData];
+    }else{
+        self.mapView.hidden = NO;
+        self.tableView.hidden = YES;
+    }
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.locations.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellID"];
+    Location *location = [self.locations objectAtIndex:indexPath.row];
+    cell.textLabel.text = location.name;
+
+    return cell;
 }
 
 -(void)addBusLocationPins{
@@ -98,9 +124,13 @@
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    LocationDetailViewController *locationDetailCtrl = [segue destinationViewController];
+
     if ([segue.identifier isEqualToString:@"locationDetail"]) {
-        LocationDetailViewController *locationDetailCtrl = [segue destinationViewController];
         locationDetailCtrl.location = self.selectedLocation;
+    }else if([segue.identifier isEqualToString:@"TableView"]){
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        locationDetailCtrl.location = [self.locations objectAtIndex:indexPath.row];
     }
 }
 
