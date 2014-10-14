@@ -14,6 +14,7 @@
 		5D6A09F419ED981800B5A173 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D6A09F319ED981800B5A173 /* Images.xcassets */; };
 		5D6A09F719ED981800B5A173 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D6A09F519ED981800B5A173 /* LaunchScreen.xib */; };
 		5D6A0A0319ED981900B5A173 /* GetOnThatBusTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6A0A0219ED981900B5A173 /* GetOnThatBusTests.m */; };
+		5D6A0A0D19ED9AA100B5A173 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D6A0A0C19ED9AA100B5A173 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		5D6A09FC19ED981900B5A173 /* GetOnThatBusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GetOnThatBusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D6A0A0119ED981900B5A173 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D6A0A0219ED981900B5A173 /* GetOnThatBusTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetOnThatBusTests.m; sourceTree = "<group>"; };
+		5D6A0A0C19ED9AA100B5A173 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D6A0A0D19ED9AA100B5A173 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +66,7 @@
 		5D6A09DA19ED981800B5A173 = {
 			isa = PBXGroup;
 			children = (
+				5D6A0A0C19ED9AA100B5A173 /* MapKit.framework */,
 				5D6A09E519ED981800B5A173 /* GetOnThatBus */,
 				5D6A09FF19ED981900B5A173 /* GetOnThatBusTests */,
 				5D6A09E419ED981800B5A173 /* Products */,

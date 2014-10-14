@@ -7,21 +7,47 @@
 //
 
 #import "ViewController.h"
-
-@interface ViewController ()
-
+#import <MapKit/MapKit.h>
+@interface ViewController () <MKMapViewDelegate>
+@property NSArray *locations;
+@property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://s3.amazonaws.com/mobile-makers-lib/bus.json"]];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        NSMutableDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        self.locations = results[@"row"];
+        [self addBusLocationPins];
+    }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)addBusLocationPins{
+    for(NSDictionary *location in self.locations){
+        CLLocationCoordinate2D coord;
+
+        coord.latitude = [location[@"latitude"] doubleValue];
+        coord.longitude = [location[@"longitude"] doubleValue];
+
+        MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+        annotation.title = location[@"cta_stop_name"];
+        annotation.coordinate = coord;
+        [self.mapView addAnnotation:annotation];
+    }
+}
+
+
+-(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
+
+    MKPinAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MyPinID"];
+    pin.canShowCallout = YES;
+    pin.rightCalloutAccessoryView  = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+
+    return pin;
 }
 
 @end
