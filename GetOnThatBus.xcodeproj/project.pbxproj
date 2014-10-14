@@ -15,6 +15,7 @@
 		5D6A09F719ED981800B5A173 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D6A09F519ED981800B5A173 /* LaunchScreen.xib */; };
 		5D6A0A0319ED981900B5A173 /* GetOnThatBusTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6A0A0219ED981900B5A173 /* GetOnThatBusTests.m */; };
 		5D6A0A0D19ED9AA100B5A173 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D6A0A0C19ED9AA100B5A173 /* MapKit.framework */; };
+		5D6A0A1019EDA23400B5A173 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6A0A0F19EDA23400B5A173 /* Location.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,8 @@
 		5D6A0A0119ED981900B5A173 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D6A0A0219ED981900B5A173 /* GetOnThatBusTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetOnThatBusTests.m; sourceTree = "<group>"; };
 		5D6A0A0C19ED9AA100B5A173 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		5D6A0A0E19EDA23400B5A173 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Location.h; path = ../Location.h; sourceTree = "<group>"; };
+		5D6A0A0F19EDA23400B5A173 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Location.m; path = ../Location.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +88,8 @@
 		5D6A09E519ED981800B5A173 /* GetOnThatBus */ = {
 			isa = PBXGroup;
 			children = (
+				5D6A0A0E19EDA23400B5A173 /* Location.h */,
+				5D6A0A0F19EDA23400B5A173 /* Location.m */,
 				5D6A09EA19ED981800B5A173 /* AppDelegate.h */,
 				5D6A09EB19ED981800B5A173 /* AppDelegate.m */,
 				5D6A09ED19ED981800B5A173 /* ViewController.h */,
@@ -225,6 +230,7 @@
 			files = (
 				5D6A09EF19ED981800B5A173 /* ViewController.m in Sources */,
 				5D6A09EC19ED981800B5A173 /* AppDelegate.m in Sources */,
+				5D6A0A1019EDA23400B5A173 /* Location.m in Sources */,
 				5D6A09E919ED981800B5A173 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
