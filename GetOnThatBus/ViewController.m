@@ -22,6 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.tableView.hidden = YES;
     self.locations = [[NSMutableArray alloc]init];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://s3.amazonaws.com/mobile-makers-lib/bus.json"]];
@@ -30,16 +31,8 @@
         for(NSDictionary *loc in results[@"row"]){
             NSString *lng = loc[@"longitude"];
             if (lng.intValue < 0) {
-                Location *location = [[Location alloc]init];
-                location.name = loc[@"cta_stop_name"];
-                location.latitude = loc[@"latitude"];
-                location.longitude = loc[@"longitude"];
-                location.routes = loc[@"routes"];
-                location.address = loc[@"_address"];
-                if (loc[@"inter_modal"]) {
-                    location.interModal = loc[@"inter_modal"];
-                }
-                [self.locations addObject:location];
+                Location *test = [[Location alloc] init];
+                [self.locations addObject:[test createLocationObject:loc]];
             }
         }
 
@@ -91,6 +84,9 @@
 }
 
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
+//    NSUInteger selectedItem = [self.mapView.annotations indexOfObject:view.annotation];
+//    NSLog(@"%lu", (unsigned long)selectedItem);
+//    self.selectedLocation = [self.locations objectAtIndex:selectedItem];
 
     for(Location *location in self.locations){
         if ([location.name isEqualToString:view.annotation.title]) {
