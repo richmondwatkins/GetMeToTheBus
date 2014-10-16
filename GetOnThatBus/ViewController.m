@@ -27,12 +27,13 @@
     self.locations = [[NSMutableArray alloc]init];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://s3.amazonaws.com/mobile-makers-lib/bus.json"]];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+
         NSMutableDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+
         for(NSDictionary *loc in results[@"row"]){
             NSString *lng = loc[@"longitude"];
             if (lng.intValue < 0) {
-                Location *test = [[Location alloc] init];
-                [self.locations addObject:[test createLocationObject:loc]];
+                [self.locations addObject:[Location createLocationObject:loc]];
             }
         }
 
@@ -59,35 +60,26 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellID"];
     Location *location = [self.locations objectAtIndex:indexPath.row];
     cell.textLabel.text = location.name;
-
+    cell.detailTextLabel.text = location.routes;
     return cell;
 }
 
 -(void)addBusLocationPins{
     NSMutableArray *annotationArray = [[NSMutableArray alloc] init];
     for(Location *location in self.locations){
-        CLLocationCoordinate2D coord;
-
-        coord.latitude = [location.latitude doubleValue];
-        coord.longitude = [location.longitude doubleValue];
 
         MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
         annotation.title = location.name;
         annotation.subtitle = location.routes;
-        annotation.coordinate = coord;
+        annotation.coordinate = location.coords;
         [annotationArray addObject:annotation];
         [self.mapView addAnnotation:annotation];
     }
 
     [self.mapView showAnnotations:self.mapView.annotations animated:YES];
-
 }
 
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
-//    NSUInteger selectedItem = [self.mapView.annotations indexOfObject:view.annotation];
-//    NSLog(@"%lu", (unsigned long)selectedItem);
-//    self.selectedLocation = [self.locations objectAtIndex:selectedItem];
-
     for(Location *location in self.locations){
         if ([location.name isEqualToString:view.annotation.title]) {
             self.selectedLocation = location;
@@ -98,6 +90,7 @@
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
     BOOL isInterModal = NO;
+
     for(Location *location in self.locations){
         if ([location.name isEqualToString:annotation.title]) {
             if (location.interModal) {
