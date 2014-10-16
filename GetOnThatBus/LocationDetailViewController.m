@@ -28,14 +28,28 @@
         self.interModalLabel.text = self.location.interModal;
     }
 
-    NSString *urlString =[NSString stringWithFormat:@"http://maps.google.com/maps/api/geocode/json?latlng=%@,%@&sensor=false", self.location.latitude, self.location.longitude];
-    NSLog(@"%@", urlString);
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+////    NSString *urlString =[NSString stringWithFormat:@"http://maps.google.com/maps/api/geocode/json?latlng=%@,%@&sensor=false", self.location.latitude, self.location.longitude];
+//    NSLog(@"%@", urlString);
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+//
+//    CLLocation *loc = [[CLLocation alloc]initWithCoordinate:self.location.coords altitude:NO horizontalAccuracy:NO verticalAccuracy:NO timestamp:nil];
+//
+//    [[[CLGeocoder alloc]init] reverseGeocodeLocation: loc completionHandler:
+//     ^(NSArray *placemarks, NSError *error) {
+//         CLPlacemark *placemark = [placemarks objectAtIndex:0];
+//         self.addressLabel.text = placemark.name;
+//     }];
 
-    [NSURLConnection sendAsynchronousRequest: request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        NSMutableDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        self.addressLabel.text = results[@"results"][1][@"formatted_address"];
-    }];
+
+//    NSString *urlString =[NSString stringWithFormat:@"http://maps.google.com/maps/api/geocode/json?latlng=%@,%@&sensor=false", self.location.latitude, self.location.longitude];
+//    NSLog(@"%@", urlString);
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+//
+//    [NSURLConnection sendAsynchronousRequest: request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//        NSLog(@"%@", data);
+//        NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+//        self.addressLabel.text = results[@"results"][1][@"formatted_address"];
+//    }];
 }
 
 
